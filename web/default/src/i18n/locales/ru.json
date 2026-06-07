@@ -4536,6 +4536,22 @@
     "Zero retention": "Без хранения данных",
     "Zhipu": "Zhipu",
     "Zhipu V4": "Zhipu V4",
-    "Zoom": "Zoom"
+    "Zoom": "Zoom",
+    "XunhuPay Gateway": "Шлюз XunhuPay",
+    "Configuration for XunhuPay payment integration": "Настройка интеграции платежей XunhuPay",
+    "Callback Configuration:": "Настройка callback:",
+    "Default notify URL:": "URL уведомления по умолчанию:",
+    "Gateway address should match the value shown in your XunhuPay channel dashboard.": "Адрес шлюза должен совпадать со значением, указанным в панели канала XunhuPay.",
+    "Notify URL must be publicly reachable.": "URL уведомления должен быть доступен из интернета.",
+    "Enable XunhuPay": "Включить XunhuPay",
+    "Show XunhuPay as a wallet recharge method": "Показывать XunhuPay как способ пополнения кошелька",
+    "Gateway address": "Адрес шлюза",
+    "Use the gateway domain shown in the XunhuPay merchant dashboard": "Используйте домен шлюза, указанный в панели продавца XunhuPay",
+    "Minimum top-up": "Минимальное пополнение",
+    "Minimum recharge amount for XunhuPay": "Минимальная сумма пополнения для XunhuPay",
+    "Enter XunhuPay APPID": "Введите APPID XunhuPay",
+    "SECRET is required when enabling XunhuPay": "SECRET обязателен при включении XunhuPay",
+    "Gateway address is required when XunhuPay is enabled": "Адрес шлюза обязателен, когда XunhuPay включен",
+    "APPID is required when XunhuPay is enabled": "APPID обязателен, когда XunhuPay включен"
   }
 }

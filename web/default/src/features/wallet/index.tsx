@@ -39,11 +39,13 @@ import {
   useCreemPayment,
   useWaffoPayment,
   useWaffoPancakePayment,
+  useXunhuPayPayment,
 } from './hooks'
 import {
   getDefaultPaymentType,
   getMinTopupAmount,
   isWaffoPancakePayment,
+  isXunhuPayPayment,
 } from './lib'
 import type {
   UserWalletData,
@@ -102,6 +104,8 @@ export function Wallet(props: WalletProps) {
   const { processWaffoPayment } = useWaffoPayment()
   const { processing: pancakeProcessing, processWaffoPancakePayment } =
     useWaffoPancakePayment()
+  const { processing: xunhuPayProcessing, processXunhuPayPayment } =
+    useXunhuPayPayment()
 
   // Fetch and refresh user data
   const fetchUser = useCallback(async () => {
@@ -185,10 +189,14 @@ export function Wallet(props: WalletProps) {
   const handlePaymentConfirm = async () => {
     if (!selectedPaymentMethod) return
 
-    const isPancake = isWaffoPancakePayment(selectedPaymentMethod.type)
+    const paymentType = selectedPaymentMethod.type
+    const isPancake = isWaffoPancakePayment(paymentType)
+    const isXunhuPay = isXunhuPayPayment(paymentType)
     const success = isPancake
       ? await processWaffoPancakePayment(topupAmount)
-      : await processPayment(topupAmount, selectedPaymentMethod.type)
+      : isXunhuPay
+        ? await processXunhuPayPayment(topupAmount)
+        : await processPayment(topupAmount, paymentType)
 
     if (success) {
       setConfirmDialogOpen(false)
@@ -303,6 +311,7 @@ export function Wallet(props: WalletProps) {
                   enableWaffoPancakeTopup={
                     topupInfo?.enable_waffo_pancake_topup
                   }
+                  enableXunhuPayTopup={topupInfo?.enable_xunhupay_topup}
                 />
               </div>
 
@@ -335,7 +344,7 @@ export function Wallet(props: WalletProps) {
         paymentAmount={paymentAmount}
         paymentMethod={selectedPaymentMethod}
         calculating={calculating}
-        processing={processing || pancakeProcessing}
+        processing={processing || pancakeProcessing || xunhuPayProcessing}
         discountRate={getDiscountRate()}
         usdExchangeRate={effectiveUsdExchangeRate}
       />

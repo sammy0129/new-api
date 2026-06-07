@@ -151,6 +151,14 @@ const BILLING_SECTIONS = [
           CreemWebhookSecret: settings.CreemWebhookSecret,
           CreemTestMode: settings.CreemTestMode,
           CreemProducts: settings.CreemProducts,
+          XunhuPayEnabled: settings.XunhuPayEnabled ?? false,
+          XunhuPayGateway:
+            settings.XunhuPayGateway ?? 'https://api.xunhupay.com',
+          XunhuPayAppID: settings.XunhuPayAppID ?? '',
+          XunhuPaySecret: settings.XunhuPaySecret ?? '',
+          XunhuPayMinTopUp: settings.XunhuPayMinTopUp ?? 1,
+          XunhuPayNotifyUrl: settings.XunhuPayNotifyUrl ?? '',
+          XunhuPayReturnUrl: settings.XunhuPayReturnUrl ?? '',
         }}
         waffoDefaultValues={{
           WaffoEnabled: settings.WaffoEnabled ?? false,

@@ -78,88 +78,127 @@ import {
   type WaffoSettingsValues,
 } from './waffo-settings-section'
 
-const paymentSchema = z.object({
-  PayAddress: z.string().refine((value) => {
-    const trimmed = value.trim()
-    if (!trimmed) return true
-    return /^https?:\/\//.test(trimmed)
-  }, 'Provide a valid callback URL starting with http:// or https://'),
-  EpayId: z.string(),
-  EpayKey: z.string(),
-  Price: z.coerce.number().min(0),
-  MinTopUp: z.coerce.number().min(0),
-  CustomCallbackAddress: z.string().refine((value) => {
-    const trimmed = value.trim()
-    if (!trimmed) return true
-    return /^https?:\/\//.test(trimmed)
-  }, 'Provide a valid URL starting with http:// or https://'),
-  PayMethods: z.string().superRefine((value, ctx) => {
-    const error = getJsonError(value)
-    if (error) {
+const paymentSchema = z
+  .object({
+    PayAddress: z.string().refine((value) => {
+      const trimmed = value.trim()
+      if (!trimmed) return true
+      return /^https?:\/\//.test(trimmed)
+    }, 'Provide a valid callback URL starting with http:// or https://'),
+    EpayId: z.string(),
+    EpayKey: z.string(),
+    Price: z.coerce.number().min(0),
+    MinTopUp: z.coerce.number().min(0),
+    CustomCallbackAddress: z.string().refine((value) => {
+      const trimmed = value.trim()
+      if (!trimmed) return true
+      return /^https?:\/\//.test(trimmed)
+    }, 'Provide a valid URL starting with http:// or https://'),
+    PayMethods: z.string().superRefine((value, ctx) => {
+      const error = getJsonError(value)
+      if (error) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: error,
+        })
+      }
+    }),
+    AmountOptions: z.string().superRefine((value, ctx) => {
+      const error = getJsonError(value, (parsed) => Array.isArray(parsed))
+      if (error) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: error,
+        })
+      }
+    }),
+    AmountDiscount: z.string().superRefine((value, ctx) => {
+      const error = getJsonError(
+        value,
+        (parsed) =>
+          !!parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+      )
+      if (error) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: error,
+        })
+      }
+    }),
+    StripeApiSecret: z.string(),
+    StripeWebhookSecret: z.string(),
+    StripePriceId: z.string(),
+    StripeUnitPrice: z.coerce.number().min(0),
+    StripeMinTopUp: z.coerce.number().min(0),
+    StripePromotionCodesEnabled: z.boolean(),
+    CreemApiKey: z.string(),
+    CreemWebhookSecret: z.string(),
+    CreemTestMode: z.boolean(),
+    CreemProducts: z.string().superRefine((value, ctx) => {
+      const error = getJsonError(value, (parsed) => Array.isArray(parsed))
+      if (error) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: error,
+        })
+      }
+    }),
+    XunhuPayEnabled: z.boolean(),
+    XunhuPayGateway: z.string().refine((value) => {
+      const trimmed = value.trim()
+      if (!trimmed) return true
+      return /^https?:\/\//.test(trimmed)
+    }, 'Provide a valid URL starting with http:// or https://'),
+    XunhuPayAppID: z.string(),
+    XunhuPaySecret: z.string(),
+    XunhuPayMinTopUp: z.coerce.number().min(1),
+    XunhuPayNotifyUrl: z.string().refine((value) => {
+      const trimmed = value.trim()
+      if (!trimmed) return true
+      return /^https?:\/\//.test(trimmed)
+    }, 'Provide a valid URL starting with http:// or https://'),
+    XunhuPayReturnUrl: z.string().refine((value) => {
+      const trimmed = value.trim()
+      if (!trimmed) return true
+      return /^https?:\/\//.test(trimmed)
+    }, 'Provide a valid URL starting with http:// or https://'),
+    WaffoEnabled: z.boolean(),
+    WaffoApiKey: z.string(),
+    WaffoPrivateKey: z.string(),
+    WaffoPublicCert: z.string(),
+    WaffoSandboxPublicCert: z.string(),
+    WaffoSandboxApiKey: z.string(),
+    WaffoSandboxPrivateKey: z.string(),
+    WaffoSandbox: z.boolean(),
+    WaffoMerchantId: z.string(),
+    WaffoCurrency: z.string(),
+    WaffoUnitPrice: z.coerce.number().min(0),
+    WaffoMinTopUp: z.coerce.number().min(1),
+    WaffoNotifyUrl: z.string(),
+    WaffoReturnUrl: z.string(),
+    WaffoPancakeMerchantID: z.string(),
+    WaffoPancakePrivateKey: z.string(),
+    WaffoPancakeReturnURL: z.string(),
+  })
+  .superRefine((value, ctx) => {
+    if (!value.XunhuPayEnabled) {
+      return
+    }
+    if (!value.XunhuPayGateway.trim()) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: error,
+        path: ['XunhuPayGateway'],
+        message: 'Gateway address is required when XunhuPay is enabled',
       })
     }
-  }),
-  AmountOptions: z.string().superRefine((value, ctx) => {
-    const error = getJsonError(value, (parsed) => Array.isArray(parsed))
-    if (error) {
+    if (!value.XunhuPayAppID.trim()) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: error,
+        path: ['XunhuPayAppID'],
+        message: 'APPID is required when XunhuPay is enabled',
       })
     }
-  }),
-  AmountDiscount: z.string().superRefine((value, ctx) => {
-    const error = getJsonError(
-      value,
-      (parsed) =>
-        !!parsed && typeof parsed === 'object' && !Array.isArray(parsed)
-    )
-    if (error) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: error,
-      })
-    }
-  }),
-  StripeApiSecret: z.string(),
-  StripeWebhookSecret: z.string(),
-  StripePriceId: z.string(),
-  StripeUnitPrice: z.coerce.number().min(0),
-  StripeMinTopUp: z.coerce.number().min(0),
-  StripePromotionCodesEnabled: z.boolean(),
-  CreemApiKey: z.string(),
-  CreemWebhookSecret: z.string(),
-  CreemTestMode: z.boolean(),
-  CreemProducts: z.string().superRefine((value, ctx) => {
-    const error = getJsonError(value, (parsed) => Array.isArray(parsed))
-    if (error) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: error,
-      })
-    }
-  }),
-  WaffoEnabled: z.boolean(),
-  WaffoApiKey: z.string(),
-  WaffoPrivateKey: z.string(),
-  WaffoPublicCert: z.string(),
-  WaffoSandboxPublicCert: z.string(),
-  WaffoSandboxApiKey: z.string(),
-  WaffoSandboxPrivateKey: z.string(),
-  WaffoSandbox: z.boolean(),
-  WaffoMerchantId: z.string(),
-  WaffoCurrency: z.string(),
-  WaffoUnitPrice: z.coerce.number().min(0),
-  WaffoMinTopUp: z.coerce.number().min(1),
-  WaffoNotifyUrl: z.string(),
-  WaffoReturnUrl: z.string(),
-  WaffoPancakeMerchantID: z.string(),
-  WaffoPancakePrivateKey: z.string(),
-  WaffoPancakeReturnURL: z.string(),
-})
+  })
 
 type PaymentFormValues = z.infer<typeof paymentSchema>
 type WaffoFormFieldValues = Omit<WaffoSettingsValues, 'WaffoPayMethods'>
@@ -419,6 +458,13 @@ export function PaymentSettingsSection({
       CreemWebhookSecret: values.CreemWebhookSecret.trim(),
       CreemTestMode: values.CreemTestMode,
       CreemProducts: values.CreemProducts.trim(),
+      XunhuPayEnabled: values.XunhuPayEnabled,
+      XunhuPayGateway: removeTrailingSlash(values.XunhuPayGateway.trim()),
+      XunhuPayAppID: values.XunhuPayAppID.trim(),
+      XunhuPaySecret: values.XunhuPaySecret.trim(),
+      XunhuPayMinTopUp: values.XunhuPayMinTopUp,
+      XunhuPayNotifyUrl: removeTrailingSlash(values.XunhuPayNotifyUrl.trim()),
+      XunhuPayReturnUrl: removeTrailingSlash(values.XunhuPayReturnUrl.trim()),
       WaffoEnabled: values.WaffoEnabled,
       WaffoSandbox: values.WaffoSandbox,
       WaffoMerchantId: values.WaffoMerchantId.trim(),
@@ -464,6 +510,19 @@ export function PaymentSettingsSection({
       CreemWebhookSecret: initialRef.current.CreemWebhookSecret.trim(),
       CreemTestMode: initialRef.current.CreemTestMode,
       CreemProducts: initialRef.current.CreemProducts.trim(),
+      XunhuPayEnabled: initialRef.current.XunhuPayEnabled,
+      XunhuPayGateway: removeTrailingSlash(
+        initialRef.current.XunhuPayGateway.trim()
+      ),
+      XunhuPayAppID: initialRef.current.XunhuPayAppID.trim(),
+      XunhuPaySecret: initialRef.current.XunhuPaySecret.trim(),
+      XunhuPayMinTopUp: initialRef.current.XunhuPayMinTopUp,
+      XunhuPayNotifyUrl: removeTrailingSlash(
+        initialRef.current.XunhuPayNotifyUrl.trim()
+      ),
+      XunhuPayReturnUrl: removeTrailingSlash(
+        initialRef.current.XunhuPayReturnUrl.trim()
+      ),
       WaffoEnabled: initialRef.current.WaffoEnabled,
       WaffoSandbox: initialRef.current.WaffoSandbox,
       WaffoMerchantId: initialRef.current.WaffoMerchantId.trim(),
@@ -486,6 +545,18 @@ export function PaymentSettingsSection({
       WaffoPancakeReturnURL: removeTrailingSlash(
         initialRef.current.WaffoPancakeReturnURL.trim()
       ),
+    }
+
+    if (
+      sanitized.XunhuPayEnabled &&
+      !initial.XunhuPayEnabled &&
+      !sanitized.XunhuPaySecret
+    ) {
+      form.setError('XunhuPaySecret', {
+        type: 'manual',
+        message: t('SECRET is required when enabling XunhuPay'),
+      })
+      return
     }
 
     const updates: Array<{ key: string; value: string | number | boolean }> = []
@@ -548,7 +619,10 @@ export function PaymentSettingsSection({
       sanitized.StripeApiSecret &&
       sanitized.StripeApiSecret !== initial.StripeApiSecret
     ) {
-      updates.push({ key: 'StripeApiSecret', value: sanitized.StripeApiSecret })
+      updates.push({
+        key: 'StripeApiSecret',
+        value: sanitized.StripeApiSecret,
+      })
     }
 
     if (
@@ -566,7 +640,10 @@ export function PaymentSettingsSection({
     }
 
     if (sanitized.StripeUnitPrice !== initial.StripeUnitPrice) {
-      updates.push({ key: 'StripeUnitPrice', value: sanitized.StripeUnitPrice })
+      updates.push({
+        key: 'StripeUnitPrice',
+        value: sanitized.StripeUnitPrice,
+      })
     }
 
     if (sanitized.StripeMinTopUp !== initial.StripeMinTopUp) {
@@ -611,6 +688,49 @@ export function PaymentSettingsSection({
       updates.push({ key: 'CreemProducts', value: sanitized.CreemProducts })
     }
 
+    if (sanitized.XunhuPayGateway !== initial.XunhuPayGateway) {
+      updates.push({
+        key: 'XunhuPayGateway',
+        value: sanitized.XunhuPayGateway,
+      })
+    }
+
+    if (sanitized.XunhuPayAppID !== initial.XunhuPayAppID) {
+      updates.push({ key: 'XunhuPayAppID', value: sanitized.XunhuPayAppID })
+    }
+
+    if (sanitized.XunhuPaySecret) {
+      updates.push({ key: 'XunhuPaySecret', value: sanitized.XunhuPaySecret })
+    }
+
+    if (sanitized.XunhuPayEnabled !== initial.XunhuPayEnabled) {
+      updates.push({
+        key: 'XunhuPayEnabled',
+        value: sanitized.XunhuPayEnabled,
+      })
+    }
+
+    if (sanitized.XunhuPayMinTopUp !== initial.XunhuPayMinTopUp) {
+      updates.push({
+        key: 'XunhuPayMinTopUp',
+        value: sanitized.XunhuPayMinTopUp,
+      })
+    }
+
+    if (sanitized.XunhuPayNotifyUrl !== initial.XunhuPayNotifyUrl) {
+      updates.push({
+        key: 'XunhuPayNotifyUrl',
+        value: sanitized.XunhuPayNotifyUrl,
+      })
+    }
+
+    if (sanitized.XunhuPayReturnUrl !== initial.XunhuPayReturnUrl) {
+      updates.push({
+        key: 'XunhuPayReturnUrl',
+        value: sanitized.XunhuPayReturnUrl,
+      })
+    }
+
     if (sanitized.WaffoEnabled !== initial.WaffoEnabled) {
       updates.push({ key: 'WaffoEnabled', value: sanitized.WaffoEnabled })
     }
@@ -620,7 +740,10 @@ export function PaymentSettingsSection({
     }
 
     if (sanitized.WaffoMerchantId !== initial.WaffoMerchantId) {
-      updates.push({ key: 'WaffoMerchantId', value: sanitized.WaffoMerchantId })
+      updates.push({
+        key: 'WaffoMerchantId',
+        value: sanitized.WaffoMerchantId,
+      })
     }
 
     if (sanitized.WaffoCurrency !== initial.WaffoCurrency) {
@@ -644,7 +767,10 @@ export function PaymentSettingsSection({
     }
 
     if (sanitized.WaffoPublicCert !== initial.WaffoPublicCert) {
-      updates.push({ key: 'WaffoPublicCert', value: sanitized.WaffoPublicCert })
+      updates.push({
+        key: 'WaffoPublicCert',
+        value: sanitized.WaffoPublicCert,
+      })
     }
 
     if (sanitized.WaffoSandboxPublicCert !== initial.WaffoSandboxPublicCert) {
@@ -659,7 +785,10 @@ export function PaymentSettingsSection({
     }
 
     if (sanitized.WaffoPrivateKey) {
-      updates.push({ key: 'WaffoPrivateKey', value: sanitized.WaffoPrivateKey })
+      updates.push({
+        key: 'WaffoPrivateKey',
+        value: sanitized.WaffoPrivateKey,
+      })
     }
 
     if (sanitized.WaffoSandboxApiKey) {
@@ -680,7 +809,10 @@ export function PaymentSettingsSection({
       normalizeJsonForComparison(sanitized.WaffoPayMethods) !==
       normalizeJsonForComparison(initial.WaffoPayMethods)
     ) {
-      updates.push({ key: 'WaffoPayMethods', value: sanitized.WaffoPayMethods })
+      updates.push({
+        key: 'WaffoPayMethods',
+        value: sanitized.WaffoPayMethods,
+      })
     }
 
     const hasWaffoPancakeChanges =
@@ -1510,6 +1642,192 @@ export function PaymentSettingsSection({
                 </FormItem>
               )}
             />
+          </div>
+
+          <Separator />
+
+          <div className='space-y-4'>
+            <div>
+              <h3 className='text-lg font-medium'>{t('XunhuPay Gateway')}</h3>
+              <p className='text-muted-foreground text-sm'>
+                {t('Configuration for XunhuPay payment integration')}
+              </p>
+            </div>
+
+            <div className='rounded-md bg-blue-50 p-4 text-sm text-blue-900 dark:bg-blue-950 dark:text-blue-100'>
+              <p className='mb-2 font-medium'>{t('Callback Configuration:')}</p>
+              <ul className='list-inside list-disc space-y-1'>
+                <li>
+                  {t('Default notify URL:')}{' '}
+                  <code className='rounded bg-blue-100 px-1 py-0.5 text-xs dark:bg-blue-900'>
+                    {'<ServerAddress>/api/xunhupay/notify'}
+                  </code>
+                </li>
+                <li>
+                  {t(
+                    'Gateway address should match the value shown in your XunhuPay channel dashboard.'
+                  )}
+                </li>
+                <li>{t('Notify URL must be publicly reachable.')}</li>
+              </ul>
+            </div>
+
+            <FormField
+              control={form.control}
+              name='XunhuPayEnabled'
+              render={({ field }) => (
+                <SettingsSwitchItem>
+                  <SettingsSwitchContent>
+                    <FormLabel>{t('Enable XunhuPay')}</FormLabel>
+                    <FormDescription>
+                      {t('Show XunhuPay as a wallet recharge method')}
+                    </FormDescription>
+                  </SettingsSwitchContent>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      disabled={!complianceConfirmed}
+                    />
+                  </FormControl>
+                </SettingsSwitchItem>
+              )}
+            />
+
+            <div className='grid gap-6 md:grid-cols-2'>
+              <FormField
+                control={form.control}
+                name='XunhuPayGateway'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('Gateway address')}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='https://api.xunhupay.com'
+                        {...field}
+                        onChange={(event) => field.onChange(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {t(
+                        'Use the gateway domain shown in the XunhuPay merchant dashboard'
+                      )}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='XunhuPayMinTopUp'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('Minimum top-up')}</FormLabel>
+                    <FormControl>
+                      <Input
+                        type='number'
+                        step='1'
+                        min={1}
+                        {...safeNumberFieldProps(field)}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {t('Minimum recharge amount for XunhuPay')}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className='grid gap-6 md:grid-cols-2'>
+              <FormField
+                control={form.control}
+                name='XunhuPayAppID'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('APPID')}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t('Enter XunhuPay APPID')}
+                        autoComplete='off'
+                        {...field}
+                        onChange={(event) => field.onChange(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='XunhuPaySecret'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('SECRET')}</FormLabel>
+                    <FormControl>
+                      <Input
+                        type='password'
+                        placeholder={t('Enter new secret to update')}
+                        autoComplete='new-password'
+                        {...field}
+                        onChange={(event) => field.onChange(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {t('Leave blank unless rotating the secret')}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className='grid gap-6 md:grid-cols-2'>
+              <FormField
+                control={form.control}
+                name='XunhuPayNotifyUrl'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('Notify URL')}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='https://gateway.example.com/api/xunhupay/notify'
+                        {...field}
+                        onChange={(event) => field.onChange(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {t('Optional override. Must be publicly reachable.')}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name='XunhuPayReturnUrl'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t('Return URL')}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='https://app.example.com/console/topup?show_history=true'
+                        {...field}
+                        onChange={(event) => field.onChange(event.target.value)}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {t('Optional redirect after the user completes payment')}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
 
           <Separator />

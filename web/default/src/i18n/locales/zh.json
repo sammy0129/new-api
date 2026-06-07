@@ -4536,6 +4536,22 @@
     "Zero retention": "零数据保留",
     "Zhipu": "智谱",
     "Zhipu V4": "智谱 V4",
-    "Zoom": "缩放"
+    "Zoom": "缩放",
+    "XunhuPay Gateway": "虎皮椒支付网关",
+    "Configuration for XunhuPay payment integration": "配置虎皮椒支付集成",
+    "Callback Configuration:": "回调配置：",
+    "Default notify URL:": "默认通知地址：",
+    "Gateway address should match the value shown in your XunhuPay channel dashboard.": "网关地址应与虎皮椒支付渠道后台显示的值一致。",
+    "Notify URL must be publicly reachable.": "通知地址必须可被公网访问。",
+    "Enable XunhuPay": "启用虎皮椒支付",
+    "Show XunhuPay as a wallet recharge method": "在钱包充值方式中展示虎皮椒支付",
+    "Gateway address": "网关地址",
+    "Use the gateway domain shown in the XunhuPay merchant dashboard": "使用虎皮椒商户后台显示的网关域名",
+    "Minimum top-up": "最低充值",
+    "Minimum recharge amount for XunhuPay": "虎皮椒支付的最低充值金额",
+    "Enter XunhuPay APPID": "请输入虎皮椒 APPID",
+    "SECRET is required when enabling XunhuPay": "启用虎皮椒支付时必须填写 SECRET",
+    "Gateway address is required when XunhuPay is enabled": "启用虎皮椒支付时必须填写网关地址",
+    "APPID is required when XunhuPay is enabled": "启用虎皮椒支付时必须填写 APPID"
   }
 }

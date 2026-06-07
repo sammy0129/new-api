@@ -4536,6 +4536,22 @@
     "Zero retention": "Aucune rétention",
     "Zhipu": "Zhipu",
     "Zhipu V4": "Zhipu V4",
-    "Zoom": "Zoom"
+    "Zoom": "Zoom",
+    "XunhuPay Gateway": "Passerelle XunhuPay",
+    "Configuration for XunhuPay payment integration": "Configuration de l'intégration de paiement XunhuPay",
+    "Callback Configuration:": "Configuration du rappel :",
+    "Default notify URL:": "URL de notification par défaut :",
+    "Gateway address should match the value shown in your XunhuPay channel dashboard.": "L'adresse de la passerelle doit correspondre à celle affichée dans le tableau de bord du canal XunhuPay.",
+    "Notify URL must be publicly reachable.": "L'URL de notification doit être accessible publiquement.",
+    "Enable XunhuPay": "Activer XunhuPay",
+    "Show XunhuPay as a wallet recharge method": "Afficher XunhuPay comme méthode de recharge du portefeuille",
+    "Gateway address": "Adresse de la passerelle",
+    "Use the gateway domain shown in the XunhuPay merchant dashboard": "Utilisez le domaine de passerelle indiqué dans le tableau de bord marchand XunhuPay",
+    "Minimum top-up": "Recharge minimale",
+    "Minimum recharge amount for XunhuPay": "Montant minimal de recharge pour XunhuPay",
+    "Enter XunhuPay APPID": "Saisissez l'APPID XunhuPay",
+    "SECRET is required when enabling XunhuPay": "Le SECRET est requis lors de l’activation de XunhuPay",
+    "Gateway address is required when XunhuPay is enabled": "L’adresse de la passerelle est requise lorsque XunhuPay est activé",
+    "APPID is required when XunhuPay is enabled": "L’APPID est requis lorsque XunhuPay est activé"
   }
 }

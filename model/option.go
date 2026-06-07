@@ -114,6 +114,13 @@ func InitOptionMap() {
 	common.OptionMap["WaffoPancakeMinTopUp"] = strconv.Itoa(setting.WaffoPancakeMinTopUp)
 	common.OptionMap["WaffoPancakeStoreID"] = setting.WaffoPancakeStoreID
 	common.OptionMap["WaffoPancakeProductID"] = setting.WaffoPancakeProductID
+	common.OptionMap["XunhuPayEnabled"] = strconv.FormatBool(setting.XunhuPayEnabled)
+	common.OptionMap["XunhuPayGateway"] = setting.XunhuPayGateway
+	common.OptionMap["XunhuPayAppID"] = setting.XunhuPayAppID
+	common.OptionMap["XunhuPaySecret"] = setting.XunhuPaySecret
+	common.OptionMap["XunhuPayMinTopUp"] = strconv.Itoa(setting.XunhuPayMinTopUp)
+	common.OptionMap["XunhuPayNotifyUrl"] = setting.XunhuPayNotifyUrl
+	common.OptionMap["XunhuPayReturnUrl"] = setting.XunhuPayReturnUrl
 	common.OptionMap["TopupGroupRatio"] = common.TopupGroupRatio2JSONString()
 	common.OptionMap["Chats"] = setting.Chats2JsonString()
 	common.OptionMap["AutoGroups"] = setting.AutoGroups2JsonString()
@@ -358,6 +365,8 @@ func updateOptionMap(key string, value string) (err error) {
 			setting.DefaultUseAutoGroup = boolValue
 		case "ExposeRatioEnabled":
 			ratio_setting.SetExposeRatioEnabled(boolValue)
+		case "XunhuPayEnabled":
+			setting.XunhuPayEnabled = boolValue
 		}
 	}
 	switch key {
@@ -462,6 +471,18 @@ func updateOptionMap(key string, value string) (err error) {
 		setting.WaffoPancakeUnitPrice, _ = strconv.ParseFloat(value, 64)
 	case "WaffoPancakeMinTopUp":
 		setting.WaffoPancakeMinTopUp, _ = strconv.Atoi(value)
+	case "XunhuPayGateway":
+		setting.XunhuPayGateway = value
+	case "XunhuPayAppID":
+		setting.XunhuPayAppID = value
+	case "XunhuPaySecret":
+		setting.XunhuPaySecret = value
+	case "XunhuPayMinTopUp":
+		setting.XunhuPayMinTopUp, _ = strconv.Atoi(value)
+	case "XunhuPayNotifyUrl":
+		setting.XunhuPayNotifyUrl = value
+	case "XunhuPayReturnUrl":
+		setting.XunhuPayReturnUrl = value
 	case "TopupGroupRatio":
 		err = common.UpdateTopupGroupRatioByJSONString(value)
 	case "GitHubClientId":

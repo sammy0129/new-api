@@ -4536,6 +4536,22 @@
     "Zero retention": "データ保持なし",
     "Zhipu": "Zhipu",
     "Zhipu V4": "Zhipu V 4",
-    "Zoom": "ズーム"
+    "Zoom": "ズーム",
+    "XunhuPay Gateway": "XunhuPay ゲートウェイ",
+    "Configuration for XunhuPay payment integration": "XunhuPay 決済連携の設定",
+    "Callback Configuration:": "コールバック設定:",
+    "Default notify URL:": "デフォルト通知 URL:",
+    "Gateway address should match the value shown in your XunhuPay channel dashboard.": "ゲートウェイアドレスは XunhuPay チャネルダッシュボードに表示される値と一致している必要があります。",
+    "Notify URL must be publicly reachable.": "通知 URL は外部からアクセス可能である必要があります。",
+    "Enable XunhuPay": "XunhuPay を有効化",
+    "Show XunhuPay as a wallet recharge method": "ウォレットチャージ方法として XunhuPay を表示",
+    "Gateway address": "ゲートウェイアドレス",
+    "Use the gateway domain shown in the XunhuPay merchant dashboard": "XunhuPay 加盟店ダッシュボードに表示されるゲートウェイドメインを使用してください",
+    "Minimum top-up": "最低チャージ額",
+    "Minimum recharge amount for XunhuPay": "XunhuPay の最低チャージ額",
+    "Enter XunhuPay APPID": "XunhuPay APPID を入力",
+    "SECRET is required when enabling XunhuPay": "XunhuPay を有効化するには SECRET が必要です",
+    "Gateway address is required when XunhuPay is enabled": "XunhuPay を有効化するにはゲートウェイアドレスが必要です",
+    "APPID is required when XunhuPay is enabled": "XunhuPay を有効化するには APPID が必要です"
   }
 }

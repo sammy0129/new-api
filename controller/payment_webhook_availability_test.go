@@ -167,3 +167,33 @@ func TestEpayWebhookEnabledRequiresTopUpAndWebhookConfig(t *testing.T) {
 	operation_setting.PayMethods = nil
 	require.False(t, isEpayWebhookEnabled())
 }
+
+func TestXunhuPayWebhookEnabledRequiresTopUpAndWebhookConfig(t *testing.T) {
+	confirmPaymentComplianceForTest(t)
+	originalEnabled := setting.XunhuPayEnabled
+	originalGateway := setting.XunhuPayGateway
+	originalAppID := setting.XunhuPayAppID
+	originalSecret := setting.XunhuPaySecret
+	t.Cleanup(func() {
+		setting.XunhuPayEnabled = originalEnabled
+		setting.XunhuPayGateway = originalGateway
+		setting.XunhuPayAppID = originalAppID
+		setting.XunhuPaySecret = originalSecret
+	})
+
+	setting.XunhuPayEnabled = true
+	setting.XunhuPayGateway = "https://pay.example.com"
+	setting.XunhuPayAppID = "appid"
+	setting.XunhuPaySecret = ""
+	require.False(t, isXunhuPayWebhookEnabled())
+
+	setting.XunhuPaySecret = "secret"
+	require.True(t, isXunhuPayWebhookEnabled())
+
+	setting.XunhuPayEnabled = false
+	require.False(t, isXunhuPayWebhookEnabled())
+
+	setting.XunhuPayEnabled = true
+	setting.XunhuPayGateway = ""
+	require.False(t, isXunhuPayWebhookEnabled())
+}

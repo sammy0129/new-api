@@ -264,6 +264,13 @@ export type BillingSettings = {
   // section (saved via /api/option/waffo-pancake/save).
   WaffoPancakeStoreID: string
   WaffoPancakeProductID: string
+  XunhuPayEnabled: boolean
+  XunhuPayGateway: string
+  XunhuPayAppID: string
+  XunhuPaySecret: string
+  XunhuPayMinTopUp: number
+  XunhuPayNotifyUrl: string
+  XunhuPayReturnUrl: string
   'checkin_setting.enabled': boolean
   'checkin_setting.min_quota': number
   'checkin_setting.max_quota': number

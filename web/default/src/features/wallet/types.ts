@@ -59,6 +59,12 @@ export type WaffoPancakePaymentResponse = ApiResponse<
     }
   | string
 >
+export type XunhuPayPaymentResponse = ApiResponse<{
+  payment_url?: string
+  qrcode_url?: string
+  trade_no?: string
+  open_order_id?: string
+}>
 
 /**
  * Creem product configuration
@@ -150,6 +156,10 @@ export interface TopupInfo {
   enable_waffo_pancake_topup?: boolean
   /** Minimum topup amount for Waffo Pancake */
   waffo_pancake_min_topup?: number
+  /** Whether XunhuPay topup is enabled */
+  enable_xunhupay_topup?: boolean
+  /** Minimum topup amount for XunhuPay */
+  xunhupay_min_topup?: number
   /** Whether redemption code usage is enabled */
   enable_redemption?: boolean
   /** Whether compliance confirmation has been completed */

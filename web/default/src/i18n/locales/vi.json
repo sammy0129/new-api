@@ -4536,6 +4536,22 @@
     "Zero retention": "Không lưu dữ liệu",
     "Zhipu": "Zhipu",
     "Zhipu V4": "Zhipu V4",
-    "Zoom": "Zoom"
+    "Zoom": "Zoom",
+    "XunhuPay Gateway": "Cổng XunhuPay",
+    "Configuration for XunhuPay payment integration": "Cấu hình tích hợp thanh toán XunhuPay",
+    "Callback Configuration:": "Cấu hình callback:",
+    "Default notify URL:": "URL thông báo mặc định:",
+    "Gateway address should match the value shown in your XunhuPay channel dashboard.": "Địa chỉ cổng phải khớp với giá trị hiển thị trong bảng điều khiển kênh XunhuPay.",
+    "Notify URL must be publicly reachable.": "URL thông báo phải có thể truy cập công khai.",
+    "Enable XunhuPay": "Bật XunhuPay",
+    "Show XunhuPay as a wallet recharge method": "Hiển thị XunhuPay như một phương thức nạp ví",
+    "Gateway address": "Địa chỉ cổng",
+    "Use the gateway domain shown in the XunhuPay merchant dashboard": "Sử dụng tên miền cổng hiển thị trong bảng điều khiển người bán XunhuPay",
+    "Minimum top-up": "Nạp tối thiểu",
+    "Minimum recharge amount for XunhuPay": "Số tiền nạp tối thiểu cho XunhuPay",
+    "Enter XunhuPay APPID": "Nhập APPID XunhuPay",
+    "SECRET is required when enabling XunhuPay": "Cần SECRET khi bật XunhuPay",
+    "Gateway address is required when XunhuPay is enabled": "Cần địa chỉ cổng khi bật XunhuPay",
+    "APPID is required when XunhuPay is enabled": "Cần APPID khi bật XunhuPay"
   }
 }

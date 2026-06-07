@@ -92,6 +92,20 @@ func isWaffoPancakeWebhookEnabled() bool {
 	return isWaffoPancakeTopUpEnabled()
 }
 
+func isXunhuPayTopUpEnabled() bool {
+	if !isPaymentComplianceConfirmed() {
+		return false
+	}
+	return setting.XunhuPayEnabled &&
+		strings.TrimSpace(setting.XunhuPayGateway) != "" &&
+		strings.TrimSpace(setting.XunhuPayAppID) != "" &&
+		strings.TrimSpace(setting.XunhuPaySecret) != ""
+}
+
+func isXunhuPayWebhookEnabled() bool {
+	return isXunhuPayTopUpEnabled()
+}
+
 func isEpayTopUpEnabled() bool {
 	if !isPaymentComplianceConfirmed() {
 		return false

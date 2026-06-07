@@ -18,7 +18,7 @@ For commercial licensing, please contact support@quantumnous.com
 */
 import { type ReactNode } from 'react'
 import i18next from 'i18next'
-import { CreditCard, Landmark } from 'lucide-react'
+import { CreditCard, Landmark, QrCode } from 'lucide-react'
 import { SiAlipay, SiWechat, SiStripe } from 'react-icons/si'
 import { PAYMENT_TYPES, PAYMENT_ICON_COLORS } from '../constants'
 
@@ -141,6 +141,13 @@ export function getPaymentIcon(
             className='hidden h-full w-full object-contain dark:block'
           />
         </span>
+      )
+    case PAYMENT_TYPES.XUNHUPAY:
+      return (
+        <QrCode
+          className={className}
+          style={{ color: PAYMENT_ICON_COLORS[PAYMENT_TYPES.XUNHUPAY] }}
+        />
       )
     default:
       return <CreditCard className={className} />

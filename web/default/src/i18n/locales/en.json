@@ -4536,6 +4536,22 @@
     "Zero retention": "Zero retention",
     "Zhipu": "Zhipu",
     "Zhipu V4": "Zhipu V4",
-    "Zoom": "Zoom"
+    "Zoom": "Zoom",
+    "XunhuPay Gateway": "XunhuPay Gateway",
+    "Configuration for XunhuPay payment integration": "Configuration for XunhuPay payment integration",
+    "Callback Configuration:": "Callback Configuration:",
+    "Default notify URL:": "Default notify URL:",
+    "Gateway address should match the value shown in your XunhuPay channel dashboard.": "Gateway address should match the value shown in your XunhuPay channel dashboard.",
+    "Notify URL must be publicly reachable.": "Notify URL must be publicly reachable.",
+    "Enable XunhuPay": "Enable XunhuPay",
+    "Show XunhuPay as a wallet recharge method": "Show XunhuPay as a wallet recharge method",
+    "Gateway address": "Gateway address",
+    "Use the gateway domain shown in the XunhuPay merchant dashboard": "Use the gateway domain shown in the XunhuPay merchant dashboard",
+    "Minimum top-up": "Minimum top-up",
+    "Minimum recharge amount for XunhuPay": "Minimum recharge amount for XunhuPay",
+    "Enter XunhuPay APPID": "Enter XunhuPay APPID",
+    "SECRET is required when enabling XunhuPay": "SECRET is required when enabling XunhuPay",
+    "Gateway address is required when XunhuPay is enabled": "Gateway address is required when XunhuPay is enabled",
+    "APPID is required when XunhuPay is enabled": "APPID is required when XunhuPay is enabled"
   }
 }
